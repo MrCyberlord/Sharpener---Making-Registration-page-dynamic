@@ -1,0 +1,70 @@
+// Define a user object with a lastActivityTime property
+const user = {
+  lastActivityTime: null,
+  posts: [],
+};
+
+// Define a function to create a post
+function createPost(post) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      user.posts.push(post);
+      resolve();
+    }, 1000);
+  });
+}
+
+// Define a function to update the user's last activity time
+function updateLastUserActivityTime() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      user.lastActivityTime = new Date();
+      resolve();
+    }, 1000);
+  });
+}
+
+// Define a function to delete the last post
+function deleteLastPost() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (user.posts.length > 0) {
+        user.posts.pop();
+        resolve();
+      } else {
+        reject("ERROR: No posts to delete");
+      }
+    }, 1000);
+  });
+}
+
+// Define a function to log the posts and last activity time of the user
+function logUserDetails() {
+  console.log(`User's posts:`, user.posts);
+  console.log(`User's last activity time:`, user.lastActivityTime);
+}
+
+// Example usage:
+createPost("Post 1")
+  .then(() => {
+    return updateLastUserActivityTime();
+  })
+  .then(() => {
+    return createPost("Post 2");
+  })
+  .then(() => {
+    return updateLastUserActivityTime();
+  })
+  .then(() => {
+    return createPost("Post 3");
+  })
+  .then(() => {
+    logUserDetails();
+    return deleteLastPost();
+  })
+  .then(() => {
+    console.log(`After deleting last post, user's posts:`, user.posts);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
